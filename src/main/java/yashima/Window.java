@@ -7,7 +7,6 @@ import util.Time;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.GLFW_FALSE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
 import static org.lwjgl.glfw.GLFW.GLFW_MAXIMIZED;
 import static org.lwjgl.glfw.GLFW.GLFW_RESIZABLE;
 import static org.lwjgl.glfw.GLFW.GLFW_TRUE;
@@ -62,10 +61,14 @@ public class Window {
         switch(newScene) {
             case 0:
                 currentScene = new LevelEditorScene();
-                //currentScene.init();
+
+                currentScene.init();
+
                 break;
             case 1:
                 currentScene = new LevelScene();
+
+                currentScene.init();
 
                 break;
             default:
