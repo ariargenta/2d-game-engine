@@ -1,0 +1,112 @@
+# Build directories
+/build/
+CmakeFiles/
+CmakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+conanbuildinfo.txt
+conaninfo.txt
+conan.lock
+conanfile.lock
+
+# Compiled binaries
+*.o
+*.obj
+*.iobj
+*.idb
+*.pch
+*.a
+*.out
+*.exe
+*.so
+*.dll
+*.pdb
+*.lib
+*.lo
+*.la
+*.dylib
+*.data
+*.wasm
+*.asm.js
+*.temp
+
+#IDE and editor settings
+.emscripten_cache/
+.vs/
+.vscode/
+!/.vscode/tasks.json
+.idea
+/*.user
+*.useroscache
+*.swp
+*.suo
+*.swo
+*.sln.docstates
+*.DS_Store
+*.sln
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+*.ipch
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Logs
+*.log
+*.tlog
+
+# Temporary files
+bin/
+tmp/
+lib/
+obj/
+runTests
+out/
+Debug/
+Release/
+
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+
+### IntelliJ IDEA ###
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
