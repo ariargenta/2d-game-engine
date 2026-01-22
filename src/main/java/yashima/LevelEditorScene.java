@@ -1,5 +1,6 @@
 package yashima;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import renderer.Shader;
 
@@ -46,10 +47,10 @@ public class LevelEditorScene extends Scene {
 
     private float[] vertexArray = {
         // x, y, z, r, g, b, a
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f       // Bottom Right 0
-        , -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f     // Top Left 1
-        , 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f      // Top Right 2
-        , -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,   // Bottom Left 3
+        100.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f       // Bottom Right 0
+        , 0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f     // Top Left 1
+        , 100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f      // Top Right 2
+        , 0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,   // Bottom Left 3
     };
 
     /**
@@ -69,6 +70,8 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f());
+
         defaultShader = new Shader("assets/shaders/default.glsl");
 
         defaultShader.compile();
@@ -127,7 +130,19 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        camera.position.x -= dt * 50.0f;
+
         defaultShader.use();
+
+        defaultShader.uploadMat4f(
+            "uProjection"
+            , camera.getProjectionMatrix()
+        );
+
+        defaultShader.uploadMat4f(
+            "uView"
+            , camera.getViewMatrix()
+        );
 
         glBindVertexArray(vaoID);
         glEnableVertexAttribArray(0);
