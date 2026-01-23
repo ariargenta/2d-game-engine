@@ -1,21 +1,22 @@
 package components;
 
+import org.joml.Vector4f;
 import yashima.Component;
 
 public class SpriteRenderer extends Component {
-    private boolean firstTime = false;
+    private Vector4f color;
 
-    @Override
-    public void start() {
-        System.out.println("Starting the system");
+    public SpriteRenderer(Vector4f color) {
+        this.color = color;
     }
 
     @Override
-    public void update(float dt) {
-        if(!firstTime) {
-            System.out.println("Update in progress");
+    public void start() {}
 
-            firstTime = true;
-        }
+    @Override
+    public void update(float dt) {}
+
+    public Vector4f getColor() {
+        return this.color;
     }
 }
