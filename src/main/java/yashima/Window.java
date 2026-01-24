@@ -51,9 +51,9 @@ public class Window {
         this.height = 1080;
         this.title = "Yashima Engine";
 
-        r = 1;
-        g = 1;
-        b = 1;
+        r = 0;
+        g = 0;
+        b = 0;
         a = 1;
     }
 
