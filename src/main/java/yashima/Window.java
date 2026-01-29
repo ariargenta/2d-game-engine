@@ -28,7 +28,14 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_ONE;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
@@ -37,6 +44,7 @@ public class Window {
     private String title;
     private static Window window = null;
     private long glfwWindow;
+    private ImGuiLayer imguiLayer;
     public float r;
     public float g;
     public float b;
@@ -144,6 +152,10 @@ public class Window {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+        this.imguiLayer = new ImGuiLayer(glfwWindow);
+
+        this.imguiLayer.initImGui();
+
         Window.changeScene(0);
     }
 
@@ -161,11 +173,21 @@ public class Window {
                 currentScene.update(dt);
             }
 
+            this.imguiLayer.update(dt);
+
             glfwSwapBuffers(glfwWindow);
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+    }
+
+    public static int getWidth() {
+        return get().width;
+    }
+
+    public static int getHeight() {
+        return get().height;
     }
 }
