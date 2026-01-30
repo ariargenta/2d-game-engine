@@ -9,6 +9,7 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiKey;
 import imgui.flag.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.glfw.ImGuiImplGlfw;
 
 import static org.lwjgl.glfw.GLFW.GLFW_ARROW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
@@ -69,6 +70,7 @@ public class ImGuiLayer {
     private long glfwWindow;
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
 
     public ImGuiLayer(long glfwWindow) {
         this.glfwWindow = glfwWindow;
@@ -84,68 +86,14 @@ public class ImGuiLayer {
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors);
         io.setBackendPlatformName("imgui_java_impl_glfw");
 
-        final int[] keyMap = new int[ImGuiKey.COUNT];
-
-        keyMap[ImGuiKey.Tab] = GLFW_KEY_TAB;
-        keyMap[ImGuiKey.LeftArrow] = GLFW_KEY_LEFT;
-        keyMap[ImGuiKey.RightArrow] = GLFW_KEY_RIGHT;
-        keyMap[ImGuiKey.UpArrow] = GLFW_KEY_UP;
-        keyMap[ImGuiKey.DownArrow] = GLFW_KEY_DOWN;
-        keyMap[ImGuiKey.PageUp] = GLFW_KEY_PAGE_UP;
-        keyMap[ImGuiKey.PageDown] = GLFW_KEY_PAGE_DOWN;
-        keyMap[ImGuiKey.Home] = GLFW_KEY_HOME;
-        keyMap[ImGuiKey.End] = GLFW_KEY_END;
-        keyMap[ImGuiKey.Insert] = GLFW_KEY_INSERT;
-        keyMap[ImGuiKey.Delete] = GLFW_KEY_DELETE;
-        keyMap[ImGuiKey.Backspace] = GLFW_KEY_BACKSPACE;
-        keyMap[ImGuiKey.Space] = GLFW_KEY_SPACE;
-        keyMap[ImGuiKey.Enter] = GLFW_KEY_ENTER;
-        keyMap[ImGuiKey.Escape] = GLFW_KEY_ESCAPE;
-        keyMap[ImGuiKey.KeypadEnter] = GLFW_KEY_KP_ENTER;
-        keyMap[ImGuiKey.A] = GLFW_KEY_A;
-        keyMap[ImGuiKey.C] = GLFW_KEY_C;
-        keyMap[ImGuiKey.V] = GLFW_KEY_V;
-        keyMap[ImGuiKey.X] = GLFW_KEY_X;
-        keyMap[ImGuiKey.Y] = GLFW_KEY_Y;
-        keyMap[ImGuiKey.Z] = GLFW_KEY_Z;
-
-        io.setKeyMap(keyMap);
-
-        mouseCursors[ImGuiMouseCursor.Arrow] =
-            glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.TextInput] =
-            glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.ResizeAll] =
-            glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.ResizeNS] =
-            glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.ResizeEW] =
-            glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.ResizeNESW] =
-            glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.ResizeNWSE] =
-            glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.Hand] =
-            glfwCreateStandardCursor(GLFW_HAND_CURSOR);
-
-        mouseCursors[ImGuiMouseCursor.NotAllowed] =
-            glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
-
         glfwSetKeyCallback(
             glfwWindow
             , (w, key, scancode, action, mods) -> {
                 if(action == GLFW_PRESS) {
-                    io.setKeysDown(key, true);
+                    io.addKeyEvent(key, true);
                 }
                 else if(action == GLFW_RELEASE) {
-                    io.setKeysDown(key, false);
+                    io.addKeyEvent(key, false);
                 }
 
                 io.setKeyCtrl(
@@ -282,6 +230,7 @@ public class ImGuiLayer {
             , ImGuiFreeType.RasterizerFlags.LightHinting
         );*/
 
+        imGuiGlfw.init(glfwWindow, false);
         imGuiGl3.init("#version 330 core");
     }
 
