@@ -1,52 +1,27 @@
 package yashima;
 
-import imgui.ImGui;
-import imgui.ImGuiIO;
+import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.ImGuiBackendFlags;
 import imgui.flag.ImGuiConfigFlags;
-import imgui.flag.ImGuiKey;
 import imgui.flag.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 
-import static org.lwjgl.glfw.GLFW.GLFW_ARROW_CURSOR;
+import java.io.InputStream;
+
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR;
 import static org.lwjgl.glfw.GLFW.GLFW_CURSOR_NORMAL;
-import static org.lwjgl.glfw.GLFW.GLFW_HAND_CURSOR;
-import static org.lwjgl.glfw.GLFW.GLFW_HRESIZE_CURSOR;
-import static org.lwjgl.glfw.GLFW.GLFW_IBEAM_CURSOR;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_BACKSPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_C;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DELETE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_END;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_HOME;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_INSERT;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_ENTER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_ALT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_CONTROL;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT_SUPER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_DOWN;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_PAGE_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_ALT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SHIFT;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_SUPER;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_V;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_X;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Y;
-import static org.lwjgl.glfw.GLFW.GLFW_KEY_Z;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_3;
@@ -54,8 +29,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_4;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_5;
 import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
 import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.GLFW_VRESIZE_CURSOR;
-import static org.lwjgl.glfw.GLFW.glfwCreateStandardCursor;
 import static org.lwjgl.glfw.GLFW.glfwGetClipboardString;
 import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 import static org.lwjgl.glfw.GLFW.glfwSetCharCallback;
@@ -97,23 +70,23 @@ public class ImGuiLayer {
                 }
 
                 io.setKeyCtrl(
-                    io.getKeysDown(GLFW_KEY_LEFT_CONTROL)
-                    || io.getKeysDown(GLFW_KEY_RIGHT_CONTROL)
+                    io.getKeysData()[GLFW_KEY_LEFT_CONTROL].getDown()
+                    || io.getKeysData()[GLFW_KEY_RIGHT_CONTROL].getDown()
                 );
 
                 io.setKeyShift(
-                    io.getKeysDown(GLFW_KEY_LEFT_SHIFT)
-                    || io.getKeysDown(GLFW_KEY_RIGHT_SHIFT)
+                    io.getKeysData()[GLFW_KEY_LEFT_SHIFT].getDown()
+                    || io.getKeysData()[GLFW_KEY_RIGHT_SHIFT].getDown()
                 );
 
                 io.setKeyAlt(
-                    io.getKeysDown(GLFW_KEY_LEFT_ALT)
-                    || io.getKeysDown(GLFW_KEY_RIGHT_ALT)
+                    io.getKeysData()[GLFW_KEY_LEFT_ALT].getDown()
+                    || io.getKeysData()[GLFW_KEY_RIGHT_ALT].getDown()
                 );
 
                 io.setKeySuper(
-                    io.getKeysDown(GLFW_KEY_LEFT_SUPER)
-                    || io.getKeysDown(GLFW_KEY_RIGHT_SUPER)
+                    io.getKeysData()[GLFW_KEY_LEFT_SUPER].getDown()
+                    || io.getKeysData()[GLFW_KEY_RIGHT_SUPER].getDown()
                 );
             }
         );
@@ -187,49 +160,12 @@ public class ImGuiLayer {
             }
         });
 
-        /*final ImFontAtlas fontAtlas = io.getFonts();
+        final ImFontAtlas fontAtlas = io.getFonts();
         final ImFontConfig fontConfig = new ImFontConfig();
 
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
         fontAtlas.addFontDefault();
-        fontConfig.setMergeMode(true);
-        fontConfig.setPixelSnapH(false);
-
-        fontAtlas.addFontFromFileTTF(
-            "src/test/resources/Righteous-Regular.ttf"
-            14
-            , fontConfig
-        );
-
-        fontAtlas.addFontFromFileTTF(
-            "src/test/resources/Righteous-Regular.ttf"
-            , 16
-            , fontConfig
-        );
-
-        fontConfig.setName("Roboto-Regular.ttf, 14px");
-
-        fontAtlas.addFontFromMemoryTTF(
-            loadFromResources("Roboto-Regular.ttf")
-            , 14
-            , fontConfig
-        );
-
-        fontConfig.setName("Roboto-Regular.ttf, 16px");
-
-        fontAtlas.addFontFromMemoryTTF(
-            loadFromResources("Roboto-Regular.ttf")
-            , 16
-            , fontConfig
-        );
-
-        fontConfig.destroy();
-
-        ImGuiFreeType.buildFontAtlas(
-            fontAtlas
-            , ImGuiFreeType.RasterizerFlags.LightHinting
-        );*/
-
+        fontAtlas.build();
         imGuiGlfw.init(glfwWindow, false);
         imGuiGl3.init("#version 330 core");
     }
@@ -265,11 +201,14 @@ public class ImGuiLayer {
     }
 
     private void endFrame() {
+        ImGui.render();
         imGuiGl3.renderDrawData(ImGui.getDrawData());
     }
 
     private void destroyImGui() {
-        imGuiGl3.dispose();
+        imGuiGl3.shutdown();
+        imGuiGlfw.shutdown();
+
         ImGui.destroyContext();
     }
 }
