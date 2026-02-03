@@ -19,15 +19,15 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window {
     private int width;
     private int height;
-    private String title;
+    private final String title;
     private static Window window = null;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
     public float r;
     public float g;
     public float b;
-    private float a;
-    private boolean fadeToBlack = false;
+    private final float a;
+    private final boolean fadeToBlack = false;
     private static Scene currentScene;
 
     private Window() {
@@ -73,7 +73,8 @@ public class Window {
     }
 
     public static Scene getScene() {
-        return get().currentScene;
+        get();
+        return currentScene;
     }
 
     public void run() {

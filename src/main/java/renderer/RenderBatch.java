@@ -47,17 +47,17 @@ public class RenderBatch implements Comparable<RenderBatch>{
     private final int VERTEX_SIZE = 9;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
-    private SpriteRenderer[] sprites;
+    private final SpriteRenderer[] sprites;
     private int numSprites;
     private boolean hasRoom;
-    private float[] vertices;
-    private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
-    private List<Texture> textures;
+    private final float[] vertices;
+    private final int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+    private final List<Texture> textures;
     private int vaoID;
     private int vboID;
-    private int maxBatchSize;
-    private Shader shader;
-    private int zIndex;
+    private final int maxBatchSize;
+    private final Shader shader;
+    private final int zIndex;
 
     public RenderBatch(int maxBatchSize, int zIndex) {
         this.zIndex = zIndex;
@@ -82,7 +82,7 @@ public class RenderBatch implements Comparable<RenderBatch>{
 
         glBufferData(
             GL_ARRAY_BUFFER
-            , vertices.length * Float.BYTES
+            , (long) vertices.length * Float.BYTES
             , GL_DYNAMIC_DRAW
         );
 
@@ -286,10 +286,10 @@ public class RenderBatch implements Comparable<RenderBatch>{
         // Triangle 1
         elements[offsetArrayIndex] = offset + 3;
         elements[offsetArrayIndex + 1] = offset + 2;
-        elements[offsetArrayIndex + 2] = offset + 0;
+        elements[offsetArrayIndex + 2] = offset;
 
         // Triangle 2
-        elements[offsetArrayIndex + 3] = offset + 0;
+        elements[offsetArrayIndex + 3] = offset;
         elements[offsetArrayIndex + 4] = offset + 2;
         elements[offsetArrayIndex + 5] = offset + 1;
     }

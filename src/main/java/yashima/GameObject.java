@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameObject {
-    private String name;
-    private List<Component> components;
+    private final String name;
+    private final List<Component> components;
     public Transform transform;
-    private int zIndex;
+    private final int zIndex;
 
     public GameObject(String name) {
         this.name = name;

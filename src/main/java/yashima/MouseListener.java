@@ -11,7 +11,7 @@ public class MouseListener {
     private double yPos;
     private double lastX;
     private double lastY;
-    private boolean mouseButtonPressed[] = new boolean[3];
+    private final boolean[] mouseButtonPressed = new boolean[3];
     private boolean isDragging;
 
     private MouseListener() {

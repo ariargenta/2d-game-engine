@@ -7,7 +7,7 @@ import yashima.Component;
 import yashima.Transform;
 
 public class SpriteRenderer extends Component {
-    private Vector4f color;
+    private final Vector4f color;
     private Sprite sprite;
     private Transform lastTransform;
     private boolean isDirty = false;
